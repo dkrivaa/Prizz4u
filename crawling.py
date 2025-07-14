@@ -62,5 +62,3 @@ async def crawl_to_get_links(get_prices: bool = True, store_code: str = '134'):
         return [d['href'] for d in result2.links.get('external', [])]
 
 
-links = asyncio.run(crawl_to_get_links(get_prices=True))
-print(links)
