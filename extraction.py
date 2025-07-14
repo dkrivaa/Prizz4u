@@ -2,9 +2,16 @@ import requests
 import gzip
 from io import BytesIO
 import xml.etree.ElementTree as ET
+from enum import Enum
 
 
-async def extract_data_from_link(gz_url: str, price_data: bool = True) -> list[dict[str, str]]:
+class DataType(Enum):
+    price = 1
+    promo = 2
+    stores = 3
+
+
+async def extract_data_from_link(gz_url: str, data_type: DataType = DataType.price) -> list[dict[str, str]]:
     """
     This function transforms a download link to a list of dicts
     :param gz_url: download link
@@ -37,11 +44,39 @@ async def extract_data_from_link(gz_url: str, price_data: bool = True) -> list[d
     # Parse XML from decompressed bytes
     root = ET.fromstring(xml_data)
 
-    if price_data:
+    if data_type == DataType.price:
         # Extract all <Item> elements into list of dicts
         for item_elem in root.findall('.//Item'):
             item_data = {child.tag: child.text for child in item_elem}
             items.append(item_data)
+
+    elif data_type == DataType.promo:
+        # If the root is <asx:abap> → navigate down to <Promotion>
+        promotions = root.findall('.//Promotion')
+
+        for promo in promotions:
+            promo_dict = {}
+
+            # Extract direct child text fields
+            for child in promo:
+                if child.tag == 'PromotionItems':
+                    promo_items = []
+                    for item in child.findall('Item'):
+                        item_dict = {elem.tag: elem.text for elem in item}
+                        promo_items.append(item_dict)
+                    promo_dict['PromotionItems'] = promo_items
+
+                elif child.tag == 'AdditionalRestrictions':
+                    restrictions = {elem.tag: elem.text for elem in child}
+                    promo_dict['AdditionalRestrictions'] = restrictions
+
+                elif child.tag == 'Clubs':
+                    promo_dict['Clubs'] = [elem.text for elem in child.findall('ClubId')]
+
+                else:
+                    promo_dict[child.tag] = child.text
+
+            items.append(promo_dict)
 
     else:
         # Extract namespaces
