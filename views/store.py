@@ -49,6 +49,9 @@ def main():
         )
 
         if store is not None:
+            # Putting the store name in session_state
+            if 'store' not in st.session_state:
+                st.session_state['store'] = store
             store_code = store.split('-')[-1]
 
             if store_code:

@@ -8,6 +8,8 @@ def display_price():
     try:
         item_data = st.session_state['item_data']
 
+        st.write(st.session_state['store'])
+
         if len(item_data) > 0:
             st.metric(
                 label=item_data[0],
