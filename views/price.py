@@ -8,7 +8,7 @@ def sales():
     st.write(item_promo)
     with st.container(border=True):
         st.metric(label=item_promo[0][0],
-                  value=int(item_promo[0][2]))
+                  value=int(float(item_promo[0][2])))
         if item_promo[1]:
             st.write(item_promo[1])
         if item_promo[3]:
