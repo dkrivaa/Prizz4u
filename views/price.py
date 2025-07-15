@@ -6,32 +6,30 @@ def sales():
 
     item_promo = st.session_state['item_promo']
     st.write(item_promo)
-    # with st.container(border=True):
-    #     description = item_promo['PromotionDescription']
-    #     new_price = int(item_promo['DiscountedPrice'])
-    #     st.metric(label=description,
-    #               value=new_price)
-    #     if item_promo('Remark'):
-    #         st.write(item_promo['Remark'])
-    #     if item_promo['MinQty']:
-    #         st.write(f'Minimum Quantity: {item_promo['MinQty']}')
-    #     if item_promo['MaxQty']:
-    #         st.write(f'Maximum Quantity: {item_promo['MaxQty']}')
-    #     if item_promo['MinAmount']:
-    #         st.write(f'Minimal total Purchase: {item_promo['MinAmount']}')
-    #     if item_promo['Clubs']:
-    #         value = int([d[0] for d in item_promo['Clubs']][0])
-    #         if value not in range(4):
-    #             value=0
-    #         st.radio(
-    #             label='Audience',
-    #             label_visibility='hidden',
-    #             options=['No Limitation', 'Shufersal Club Members Only',
-    #                      'Shufersal CreditCard Holders Only','Other', ],
-    #             index=value,
-    #             disabled=True
-    #         )
-    #     st.write(f'Sale/Discount Ends On: {item_promo['PromotionEndDate']}')
+    with st.container(border=True):
+        st.metric(label=item_promo[0][0],
+                  value=int(item_promo[0][2]))
+        if item_promo[1]:
+            st.write(item_promo[1])
+        if item_promo[3]:
+            st.write(f'Minimum Quantity: {item_promo[3]}')
+        if item_promo[4]:
+            st.write(f'Maximum Quantity: {item_promo[4]}')
+        if item_promo[5]:
+            st.write(f'Minimal total Purchase: {item_promo[5]}')
+        if item_promo[7]:
+            value = int([d[0] for d in item_promo[7]][0])
+            if value not in range(4):
+                value=0
+            st.radio(
+                label='Audience',
+                label_visibility='hidden',
+                options=['No Limitation', 'Shufersal Club Members Only',
+                         'Shufersal CreditCard Holders Only','Other', ],
+                index=value,
+                disabled=True
+            )
+        st.write(f'Sale/Discount Ends On: {item_promo[8]}')
 
 
 def display_price():
