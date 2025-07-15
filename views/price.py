@@ -5,7 +5,7 @@ def sales():
     """ This function presents the sales / discounts for selected product """
 
     item_promo = st.session_state['item_promo']
-    st.write(item_promo['PromotionDescription'])
+    st.write(item_promo)
     # with st.container(border=True):
     #     description = item_promo['PromotionDescription']
     #     new_price = int(item_promo['DiscountedPrice'])
