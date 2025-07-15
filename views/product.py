@@ -118,8 +118,6 @@ def main():
         final_promo = make_final_promo_data(price_promo_lists_subprocess_result[2])
         final_fullpromo = make_final_promo_data(price_promo_lists_subprocess_result[3])
 
-        st.write(final_promo[:10])
-
         def enter_into_session_state(name: str, data: list[dict[str, str]]):
             if name not in st.session_state:
                 st.session_state[name] = data
