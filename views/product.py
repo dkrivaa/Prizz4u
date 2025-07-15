@@ -112,20 +112,20 @@ def main():
             store_code = st.session_state['store_code']
             price_promo_lists_subprocess_result = get_price_data(store_code)
 
-            # Making final lists for price and promo data
-            final_price = make_final_price_data(price_promo_lists_subprocess_result[0])
-            final_fullprice = make_final_price_data(price_promo_lists_subprocess_result[1])
-            final_promo = make_final_promo_data(price_promo_lists_subprocess_result[2])
-            final_fullpromo = make_final_promo_data(price_promo_lists_subprocess_result[3])
+        # Making final lists for price and promo data
+        final_price = make_final_price_data(price_promo_lists_subprocess_result[0])
+        final_fullprice = make_final_price_data(price_promo_lists_subprocess_result[1])
+        final_promo = make_final_promo_data(price_promo_lists_subprocess_result[2])
+        final_fullpromo = make_final_promo_data(price_promo_lists_subprocess_result[3])
 
-            def enter_into_session_state(name: str, data: list[dict[str, str]]):
-                if name not in st.session_state:
-                    st.session_state[name] = data
+        def enter_into_session_state(name: str, data: list[dict[str, str]]):
+            if name not in st.session_state:
+                st.session_state[name] = data
 
-            enter_into_session_state('final_price', final_price)
-            enter_into_session_state('final_fullprice', final_fullprice)
-            enter_into_session_state('final_promo', final_promo)
-            enter_into_session_state('final_fullpromo', final_fullpromo)
+        enter_into_session_state('final_price', final_price)
+        enter_into_session_state('final_fullprice', final_fullprice)
+        enter_into_session_state('final_promo', final_promo)
+        enter_into_session_state('final_fullpromo', final_fullpromo)
 
         # Take barcode picture and get image_code
         with st.form('Submit Data', clear_on_submit=True):
