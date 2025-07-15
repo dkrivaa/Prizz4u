@@ -2,13 +2,14 @@ import streamlit as st
 import sys
 import subprocess
 import os
+import re
 
 from PIL import Image
 from pyzbar.pyzbar import decode as decode_pyzbar
 import numpy as np
 import cv2
 
-from subprocess_results import make_final_price_data
+from subprocess_results import make_final_price_data, make_final_promo_data
 
 
 def barcode():
@@ -45,19 +46,57 @@ def barcode():
 
 @st.cache_data(ttl='2h', show_spinner=False)
 def get_price_data(store_code):
-    """ Getting price data for selected store """
+    """
+    This function runs the subprocesses to get the data from the 4 price / promo files -
+    price, fullprice, promo, fullpromo
+    :param store_code: The code for selected store
+    :return: a list of the data from the four files as strings of list of dicts
+    """
+    # Making sure store_code is string
+    store_code = str(store_code)
+    # Step 1: Run Crawl4AI to get the links
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
 
-    price_list_subprocess_result = subprocess.run(
-        [sys.executable, 'async_prices.py', store_code],
+    links_proc = subprocess.run(
+        [sys.executable, "async_price_links.py", store_code],  # or your actual command
         capture_output=True,
-        text=True,  # automatically decodes output
+        text=True,
         encoding='utf-8',  # 👈 force UTF-8 decoding
         env=env
     )
 
-    return price_list_subprocess_result
+    # Step 2: Extract all URLs ending with `.gz`
+    stdout = links_proc.stdout
+    links = re.findall(r"https://[^\s]+?\.gz\?[^ \n]+", stdout)
+
+    # Step 3: Validate and print
+    if len(links) != 4:
+        raise ValueError(f"Expected 4 URLs, got {len(links)}:\n{links}")
+
+    # Optional: Assign clearly
+    price_url, fullprice_url, promo_url, fullpromo_url = links
+
+    # Show them
+    for i, url in enumerate(links, 1):
+        print(f"Link {i}: {url}")
+
+    urls = [price_url, fullprice_url, promo_url, fullpromo_url]
+    types = ['price', 'price', 'promo', 'promo']
+
+    # Optional: Run each in a subprocess
+    results = []
+    for url, dtype in zip(urls, types):
+        proc = subprocess.run(
+            [sys.executable, "async_fetch_price_promo_data.py", url, dtype],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',  # 👈 force UTF-8 decoding
+            env=env
+        )
+        results.append(proc.stdout)
+
+    return results
 
 
 def main():
@@ -66,14 +105,26 @@ def main():
     This page enables user to upload pic of barcode and reads the image_code
     """
     try:
-        # Making price list for selected store
+        # Making price and promo lists for selected store
         with st.spinner('Getting data for Your store........'):
             # Using subprocess to get price data for selected store
             store_code = st.session_state['store_code']
-            price_list_subprocess_result = get_price_data(store_code)
-            # Transforming subprocess result to list of prices
-            final_price_list = make_final_price_data(price_list_subprocess_result)
-            st.session_state['price_list'] = final_price_list
+            price_promo_lists_subprocess_result = get_price_data(store_code)
+
+            # Making final lists for price and promo data
+            final_price = make_final_price_data(price_promo_lists_subprocess_result[0])
+            final_fullprice = make_final_price_data(price_promo_lists_subprocess_result[1])
+            final_promo = make_final_promo_data(price_promo_lists_subprocess_result[2])
+            final_fullpromo = make_final_promo_data(price_promo_lists_subprocess_result[3])
+
+            def enter_into_session_state(name: str, data: list[dict[str, str]]):
+                if name not in st.session_state:
+                    st.session_state[name] = data
+
+            enter_into_session_state('final_price', final_price)
+            enter_into_session_state('final_fullprice', final_fullprice)
+            enter_into_session_state('final_promo', final_promo)
+            enter_into_session_state('final_fullpromo', final_fullpromo)
 
         # Take barcode picture and get image_code
         with st.form('Submit Data', clear_on_submit=True):
@@ -86,7 +137,7 @@ def main():
 
             if submitted:
 
-                price_list = st.session_state['price_list']
+                price_list = st.session_state['final_fullprice']
                 item_data = []
 
                 # Priority: write_code (manual) > image_code (barcode scan)

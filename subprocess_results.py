@@ -26,21 +26,13 @@ def make_final_store_list(subprocess_result: CompletedProcess[str]):
     return stores_list
 
 
-def make_final_price_data(subprocess_result: CompletedProcess[str]):
+def make_final_price_data(list_string: str, ):
     """
     This function transform subprocess result into price list for selected store
-    :param subprocess_result:
+    :param list_string: the data in file link
     """
     try:
-        # Get the last "[" which starts the price data
-        last_list_index = subprocess_result.stdout.rfind("[{")
-        if last_list_index == -1:
-            return []
-
-        raw_data_str = subprocess_result.stdout[last_list_index:]
-
-        # Parse the string to a real Python object
-        price_data = ast.literal_eval(raw_data_str)
+        price_data = ast.literal_eval(list_string)
 
         # Ensure it's a list of dicts
         if isinstance(price_data, list) and all(isinstance(d, dict) for d in price_data):
@@ -49,4 +41,27 @@ def make_final_price_data(subprocess_result: CompletedProcess[str]):
     except Exception as e:
         print("Failed to extract price data:", e)
         return []
+
+
+def make_final_promo_data(list_string: str):
+    """
+    This function transform subprocess result into promo list for selected store
+    :param list_string: The data in file link
+    """
+    try:
+
+        # Safely evaluate to Python list of dicts
+        promotions = ast.literal_eval(list_string)
+
+        # Confirm structure
+        if isinstance(promotions, list) and all(isinstance(p, dict) for p in promotions):
+            return promotions
+        else:
+            print("⚠️ Output is not a list of dicts.")
+            return []
+
+    except Exception as e:
+        print(f"❌ Failed to extract promotion data: {e}")
+        return []
+
 

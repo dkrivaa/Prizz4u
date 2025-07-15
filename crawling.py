@@ -1,5 +1,4 @@
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode
-import asyncio
 
 
 async def crawl_to_get_links(get_prices: bool = True, store_code: str = '134'):

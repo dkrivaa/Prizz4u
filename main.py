@@ -2,6 +2,7 @@ import os
 os.system("playwright install")
 import streamlit as st
 
+
 st.set_page_config(
     layout='centered',
     initial_sidebar_state='collapsed'
