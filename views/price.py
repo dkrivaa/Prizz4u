@@ -5,7 +5,7 @@ def sales():
     """ This function presents the sales / discounts for selected product """
 
     item_promo = st.session_state['item_promo'][0]
-    with st.container(border=True):
+    with st.container():
         st.metric(label=item_promo[0],
                   value=f'₪ {float(item_promo[2])}')
         if item_promo[1]:
@@ -20,14 +20,15 @@ def sales():
             value = int([d[0] for d in item_promo[7]][0])
             if value not in range(4):
                 value=0
-            st.radio(
-                label='Audience',
-                label_visibility='hidden',
-                options=['No Limitation', 'Shufersal Club Members Only',
-                         'Shufersal CreditCard Holders Only','Other', ],
-                index=value,
-                disabled=True
-            )
+            with st.container(border=True):
+                st.radio(
+                    label='Audience',
+                    label_visibility='hidden',
+                    options=['No Limitation', 'Shufersal Club Members Only',
+                             'Shufersal CreditCard Holders Only','Other', ],
+                    index=value,
+                    disabled=True
+                )
         st.write(f'Sale/Discount Ends On: {item_promo[8]}')
 
 
