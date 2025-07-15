@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 
 from subprocess_results import make_final_price_data, make_final_promo_data
+from product_data import all_product_data
 
 
 def barcode():
@@ -137,30 +138,51 @@ def main():
 
             if submitted:
 
-                price_list = st.session_state['final_fullprice']
+                product_code = None
+
+                if write_code:
+                    product_code = write_code
+                elif image_code and image_code != 'No barcode or QR code detected.':
+                    product_code = image_code
+                    # Get data for product
+
                 item_data = []
 
-                # Priority: write_code (manual) > image_code (barcode scan)
-                if write_code:
-                    matching = [d for d in price_list if d['ItemCode'] == write_code]
-                    if matching:
-                        item_data = [matching[0]['ItemName'], matching[0]['ItemPrice']]
-                elif image_code:
-                    matching = [d for d in price_list if d['ItemCode'] == image_code]
-                    if matching:
-                        item_data = [matching[0]['ItemName'], matching[0]['ItemPrice']]
+                if product_code:
+                    item_data = all_product_data(product_code=product_code)
 
-                st.divider()
+                if 'item_data' not in st.session_state:
+                    st.session_state['item_data'] = item_data
+                else:
+                    st.session_state['item_data'] = item_data
 
-                # Go to display item info
-                if image_code or write_code:
-                    if 'item_data' not in st.session_state:
-                        st.session_state['item_data'] = item_data
-                    else:
-                        st.session_state['item_data'] = item_data
+                st.switch_page('views/price.py')
 
-                    if image_code != 'No barcode or QR code detected.':
-                        st.switch_page('views/price.py')
+
+                # price_list = st.session_state['final_fullprice']
+                # item_data = []
+                #
+                # # Priority: write_code (manual) > image_code (barcode scan)
+                # if write_code:
+                #     matching = [d for d in price_list if d['ItemCode'] == write_code]
+                #     if matching:
+                #         item_data = [matching[0]['ItemName'], matching[0]['ItemPrice']]
+                # elif image_code:
+                #     matching = [d for d in price_list if d['ItemCode'] == image_code]
+                #     if matching:
+                #         item_data = [matching[0]['ItemName'], matching[0]['ItemPrice']]
+                #
+                # st.divider()
+                #
+                # # Go to display item info
+                # if image_code or write_code:
+                #     if 'item_data' not in st.session_state:
+                #         st.session_state['item_data'] = item_data
+                #     else:
+                #         st.session_state['item_data'] = item_data
+                #
+                #     if image_code != 'No barcode or QR code detected.':
+                #         st.switch_page('views/price.py')
 
     except KeyError:
         if 'store_list' not in st.session_state:
