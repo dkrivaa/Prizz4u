@@ -4,11 +4,11 @@ import streamlit as st
 def sales():
     """ This function presents the sales / discounts for selected product """
 
-    item_promo = st.session_state['item_promo']
+    item_promo = st.session_state['item_promo'][0]
     st.write(item_promo)
     with st.container(border=True):
-        st.metric(label=item_promo[0][0],
-                  value=int(float(item_promo[0][2])))
+        st.metric(label=item_promo[0],
+                  value=int(float(item_promo[2])))
         if item_promo[1]:
             st.write(item_promo[1])
         if item_promo[3]:
