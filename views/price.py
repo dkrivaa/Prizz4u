@@ -5,8 +5,9 @@ def sales():
     """ This function presents the sales / discounts for selected product """
     item_promo = st.session_state['item_promo']
     with st.container(border=True):
-        st.metric(label=item_promo['PromotionDescription'],
-                  value=item_promo['DiscountedPrice'])
+        description = item_promo['PromotionDescription']
+        st.metric(label=description,
+                  value=int(item_promo['DiscountedPrice']))
         if item_promo('Remark'):
             st.write(item_promo['Remark'])
         if item_promo['MinQty']:
