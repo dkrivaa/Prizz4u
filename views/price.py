@@ -6,8 +6,9 @@ def sales():
     item_promo = st.session_state['item_promo']
     with st.container(border=True):
         description = item_promo['PromotionDescription']
+        new_price = int(item_promo['DiscountedPrice'])
         st.metric(label=description,
-                  value=int(item_promo['DiscountedPrice']))
+                  value=new_price)
         if item_promo('Remark'):
             st.write(item_promo['Remark'])
         if item_promo['MinQty']:
