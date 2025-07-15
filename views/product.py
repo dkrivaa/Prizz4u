@@ -127,6 +127,7 @@ def main():
             enter_into_session_state('final_promo', final_promo)
             enter_into_session_state('final_fullpromo', final_fullpromo)
 
+
         # Take barcode picture and get image_code
         with st.form('Submit Data', clear_on_submit=True):
             image_code = barcode()
@@ -146,17 +147,24 @@ def main():
                     product_code = image_code
                     # Get data for product
 
-                item_data = []
+                item_price = []
+                item_promo = []
 
                 if product_code:
-                    item_data = all_product_data(product_code=product_code)
+                    item_price, item_promo = all_product_data(product_code=product_code)
+                    st.write(item_price)
 
-                if 'item_data' not in st.session_state:
-                    st.session_state['item_data'] = item_data
-                else:
-                    st.session_state['item_data'] = item_data
+                    if 'item_price' not in st.session_state:
+                        st.session_state['item_price'] = item_price
+                    else:
+                        st.session_state['item_price'] = item_price
 
-                st.switch_page('views/price.py')
+                    if 'item_promo' not in st.session_state:
+                        st.session_state['item_promo'] = item_promo
+                    else:
+                        st.session_state['item_promo'] = item_promo
+
+                    st.switch_page('views/price.py')
 
     except KeyError:
         if 'store_list' not in st.session_state:

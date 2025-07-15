@@ -6,21 +6,28 @@ def display_price():
     This is the function to display the product price
     """
     try:
-        item_data = st.session_state['item_data']
+        with st.container(border=True):
+            # PRICE
+            item_price = st.session_state['item_price']
 
-        st.write(st.session_state['store'])
+            st.write(st.session_state['store'])
 
-        if len(item_data) > 0:
-            st.metric(
-                label=item_data[0],
-                value=f'₪ {item_data[1]}'
-            )
+            if len(item_price) > 0:
+                st.metric(
+                    label=item_price[0][0],
+                    value=f'₪ {item_price[0][1]}'
+                )
 
-        else:
-            st.metric(
-                label='Product Price Is Not Available',
-                value=None
-            )
+            else:
+                st.metric(
+                    label='Product Price Is Not Available',
+                    value=None
+                )
+
+            st.divider()
+            # SALES / DISCOUNTS
+            st.markdown('**Sales / Discounts**')
+            st.write(st.session_state['item_promo'])
 
         st.divider()
 
