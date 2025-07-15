@@ -127,7 +127,6 @@ def main():
             enter_into_session_state('final_promo', final_promo)
             enter_into_session_state('final_fullpromo', final_fullpromo)
 
-
         # Take barcode picture and get image_code
         with st.form('Submit Data', clear_on_submit=True):
             image_code = barcode()
