@@ -1,6 +1,35 @@
 import streamlit as st
 
 
+def sales():
+    """ This function presents the sales / discounts for selected product """
+    item_promo = st.session_state['item_promo']
+    with st.container(border=True):
+        st.metric(label=item_promo['PromotionDescription'],
+                  value=item_promo['DiscountedPrice'])
+        if item_promo('Remark'):
+            st.write(item_promo['Remark'])
+        if item_promo['MinQty']:
+            st.write(f'Minimum Quantity: {item_promo['MinQty']}')
+        if item_promo['MaxQty']:
+            st.write(f'Maximum Quantity: {item_promo['MaxQty']}')
+        if item_promo['MinAmount']:
+            st.write(f'Minimal total Purchase: {item_promo['MinAmount']}')
+        if item_promo['Clubs']:
+            value = int([d[0] for d in item_promo['Clubs']][0])
+            if value not in range(4):
+                value=0
+            st.radio(
+                label='Audience',
+                label_visibility='hidden',
+                options=['No Limitation', 'Shufersal Club Members Only',
+                         'Shufersal CreditCard Holders Only','Other', ],
+                index=value,
+                disabled=True
+            )
+        st.write(f'Sale/Discount Ends On: {item_promo['PromotionEndDate']}')
+
+
 def display_price():
     """
     This is the function to display the product price
@@ -27,7 +56,11 @@ def display_price():
             st.divider()
             # SALES / DISCOUNTS
             st.markdown('**Sales / Discounts**')
-            st.write(st.session_state['item_promo'])
+            if len(st.session_state['item_promo']) > 0:
+                # Display sale/discount
+                sales()
+            else:
+                st.write('No Sales / Discounts')
 
         st.divider()
 
