@@ -22,8 +22,7 @@ def sales():
                 value=0
             with st.container(border=True):
                 st.radio(
-                    label='Audience',
-                    label_visibility='hidden',
+                    label='Limitations',
                     options=['No Limitation', 'Shufersal Club Members Only',
                              'Shufersal CreditCard Holders Only','Other', ],
                     index=value,
