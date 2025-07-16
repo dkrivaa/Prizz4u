@@ -13,15 +13,6 @@ from subprocess_results import make_final_price_data, make_final_promo_data
 from product_data import all_product_data
 
 
-@st.dialog('❌ No barcode or QR code detected')
-def no_barcode_dialog():
-    """ A dialog if no barcode detected in uploaded image """
-    st.markdown('No barcode or readable numeric code detected. Try again or '
-                '**Enter barcode manually**')
-    if st.button('OK'):
-        st.rerun()
-
-
 def barcode():
     """
     This function enables user to upload pic of barcode and reads the code
