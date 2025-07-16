@@ -46,5 +46,5 @@ with st.container(border=True):
     with col3:
         st.page_link(page='views/price.py')
 
-pg=st.navigation(pages=pages, position='hidden')
+pg = st.navigation(pages=pages, position='hidden')
 pg.run()
