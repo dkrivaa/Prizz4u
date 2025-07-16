@@ -5,6 +5,7 @@ def sales():
     """ This function presents the sales / discounts for selected product """
 
     item_promo = st.session_state['item_promo'][0]
+    st.write(item_promo)
     with st.container():
         st.metric(label=item_promo[0],
                   value=f'₪ {float(item_promo[2])}')

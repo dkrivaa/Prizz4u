@@ -151,7 +151,6 @@ def main():
 
                 if product_code:
                     item_price, item_promo = all_product_data(product_code=product_code)
-                    st.write(item_price)
 
                     if 'item_price' not in st.session_state:
                         st.session_state['item_price'] = item_price
