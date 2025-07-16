@@ -23,12 +23,17 @@ product_page = st.Page(
     page='views/product.py'
 )
 
+no_barcode_page = st.Page(
+    title='No Barcode',
+    page='views/no_barcode.py'
+)
+
 price_page = st.Page(
     title='Price',
     page='views/price.py'
 )
 
-pages = [store_page, product_page, price_page]
+pages = [store_page, product_page, price_page, no_barcode_page]
 
 pg=st.navigation(pages=pages, position='top')
 pg.run()

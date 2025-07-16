@@ -150,7 +150,7 @@ def main():
 
                 # If could not read barcode from image
                 if image_code == 'No barcode or QR code detected.':
-                    no_barcode_dialog()
+                    st.switch_page('views/no_barcode.py')
                 else:
                     if write_code:
                         product_code = write_code
