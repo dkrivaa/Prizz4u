@@ -19,6 +19,7 @@ def no_barcode_dialog():
     st.markdown('No barcode or readable numeric code detected. Try again or '
                 '**Enter barcode manually**')
     if st.button('OK'):
+        st.session_state['uploaded_file'] = None
         st.rerun()
 
 
