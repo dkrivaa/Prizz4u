@@ -151,7 +151,6 @@ def main():
                 # If could not read barcode from image
                 if image_code == 'No barcode or QR code detected.':
                     no_barcode_dialog()
-                    st.rerun()
                 else:
                     if write_code:
                         product_code = write_code
