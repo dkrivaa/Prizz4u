@@ -147,6 +147,8 @@ def main():
 
             if submitted:
 
+                st.write(st.session_state)
+
                 product_code = None
 
                 # If could not read barcode from image
