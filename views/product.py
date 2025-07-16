@@ -19,7 +19,7 @@ def no_barcode_dialog():
     st.markdown('No barcode or readable numeric code detected. Try again or '
                 '**Enter barcode manually**')
     if st.button('OK'):
-        st.session_state['uploaded_file'] = None
+        st.session_state['data_form'] = None
         st.rerun()
 
 
@@ -137,7 +137,7 @@ def main():
         enter_into_session_state('final_fullpromo', final_fullpromo)
 
         # Take barcode picture and get image_code
-        with st.form('Submit Data', clear_on_submit=True):
+        with st.form('Submit Data', clear_on_submit=True, key='data_form'):
             image_code = barcode()
             st.write(':blue[or]')
             st.markdown('**Enter Barcode**')
