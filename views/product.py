@@ -13,10 +13,18 @@ from subprocess_results import make_final_price_data, make_final_promo_data
 from product_data import all_product_data
 
 
+@st.dialog('❌ No barcode or QR code detected')
+def no_barcode_dialog():
+    """ A dialog if no barcode detected in uploaded image """
+    st.markdown('No barcode or readable numeric code detected. Try again or '
+                '**Enter barcode manually**')
+    if st.button('OK'):
+        st.rerun()
+
+
 def barcode():
     """
     This function enables user to upload pic of barcode and reads the code
-    :return:
     """
 
     st.markdown("**Barcode Scanner**")
@@ -140,29 +148,33 @@ def main():
 
                 product_code = None
 
-                if write_code:
-                    product_code = write_code
-                elif image_code and image_code != 'No barcode or QR code detected.':
-                    product_code = image_code
-                    # Get data for product
+                # If could not read barcode from image
+                if image_code == 'No barcode or QR code detected.':
+                    no_barcode_dialog()
+                else:
+                    if write_code:
+                        product_code = write_code
+                    elif image_code and image_code != 'No barcode or QR code detected.':
+                        product_code = image_code
+                        # Get data for product
 
-                item_price = []
-                item_promo = []
+                    item_price = []
+                    item_promo = []
 
-                if product_code:
-                    item_price, item_promo = all_product_data(product_code=product_code)
+                    if product_code:
+                        item_price, item_promo = all_product_data(product_code=product_code)
 
-                    if 'item_price' not in st.session_state:
-                        st.session_state['item_price'] = item_price
-                    else:
-                        st.session_state['item_price'] = item_price
+                        if 'item_price' not in st.session_state:
+                            st.session_state['item_price'] = item_price
+                        else:
+                            st.session_state['item_price'] = item_price
 
-                    if 'item_promo' not in st.session_state:
-                        st.session_state['item_promo'] = item_promo
-                    else:
-                        st.session_state['item_promo'] = item_promo
+                        if 'item_promo' not in st.session_state:
+                            st.session_state['item_promo'] = item_promo
+                        else:
+                            st.session_state['item_promo'] = item_promo
 
-                    st.switch_page('views/price.py')
+                        st.switch_page('views/price.py')
 
     except KeyError:
         if 'store_list' not in st.session_state:
