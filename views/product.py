@@ -19,7 +19,7 @@ def no_barcode_dialog():
     st.markdown('No barcode or readable numeric code detected. Try again or '
                 '**Enter barcode manually**')
     if st.button('OK'):
-        st.session_state['Submit Date'] = None
+        st.session_state['Submit Data'] = None
         st.rerun()
 
 
@@ -146,8 +146,6 @@ def main():
             submitted = st.form_submit_button('Submit')
 
             if submitted:
-
-                st.write(st.session_state)
 
                 product_code = None
 
