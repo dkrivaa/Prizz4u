@@ -5,21 +5,15 @@ def sales():
     """ This function presents the sales / discounts for selected product """
 
     item_promo = st.session_state['item_promo'][0]
-    st.write(item_promo)
     with st.container():
         st.metric(label=item_promo[0],
                   value=f'₪ {float(item_promo[2])}')
-        if item_promo[1]:
-            st.write(item_promo[1])
-        if item_promo[3]:
-            st.write(f'Minimum Quantity: {item_promo[3]}')
-        if item_promo[4]:
-            st.write(f'Maximum Quantity: {item_promo[4]}')
-        # if item_promo[5]:
+        st.write(item_promo[1])
+        st.write(f'Minimum Quantity: {item_promo[3]}')
+        st.write(f'Maximum Quantity: {item_promo[4]}')
         st.write(f'Minimal total Purchase: {item_promo[5]}')
         if item_promo[7]:
             value = int([d[0] for d in item_promo[7]][0])
-            st.write(f'Club Value: {value}')
             if value not in range(4):
                 value=0
             with st.container(border=True):
