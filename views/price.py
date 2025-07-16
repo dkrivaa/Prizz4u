@@ -19,6 +19,7 @@ def sales():
         st.write(f'Minimal total Purchase: {item_promo[5]}')
         if item_promo[7]:
             value = int([d[0] for d in item_promo[7]][0])
+            st.write(f'Club Value: {value}')
             if value not in range(4):
                 value=0
             with st.container(border=True):
