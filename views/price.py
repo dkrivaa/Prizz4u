@@ -46,7 +46,7 @@ def display_price():
 
             else:
                 st.metric(
-                    label='Product Price Is Not Available',
+                    label='Product / Product Price Is Not Available',
                     value=None
                 )
 
