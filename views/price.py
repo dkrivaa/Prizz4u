@@ -15,15 +15,15 @@ def sales():
             st.write(f'Minimum Quantity: {item_promo[3]}')
         if item_promo[4]:
             st.write(f'Maximum Quantity: {item_promo[4]}')
-        if item_promo[5]:
-            st.write(f'Minimal total Purchase: {item_promo[5]}')
+        # if item_promo[5]:
+        st.write(f'Minimal total Purchase: {item_promo[5]}')
         if item_promo[7]:
             value = int([d[0] for d in item_promo[7]][0])
             if value not in range(4):
                 value=0
             with st.container(border=True):
                 st.radio(
-                    label='Limitations',
+                    label='Customer Limitations',
                     options=['No Limitation', 'Shufersal Club Members Only',
                              'Shufersal CreditCard Holders Only','Other', ],
                     index=value,
