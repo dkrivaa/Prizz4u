@@ -32,7 +32,7 @@ product_page = st.Page(
 )
 
 no_barcode_page = st.Page(
-    title=' ',
+    title='No Barcode',
     page='views/no_barcode.py'
 )
 
