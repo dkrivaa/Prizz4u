@@ -11,5 +11,4 @@ def nav():
             st.page_link(page='views/product.py')
         with col3:
             st.page_link(page='views/price.py')
-    st.divider()
 
