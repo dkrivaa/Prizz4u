@@ -5,12 +5,7 @@ def nav():
     """ This is the app navigation menu """
     with st.container(border=True):
         with st.expander(label='Menu'):
-
-            col1, col2, col3 = st.columns([1, 1, 1])
-            with col1:
-                st.page_link(page='views/store.py')
-            with col2:
-                st.page_link(page='views/product.py')
-            with col3:
-                st.page_link(page='views/price.py')
+            st.page_link(page='views/store.py')
+            st.page_link(page='views/product.py')
+            st.page_link(page='views/price.py')
 
