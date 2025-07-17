@@ -35,5 +35,5 @@ price_page = st.Page(
 
 pages = [store_page, product_page, price_page, no_barcode_page]
 
-pg = st.navigation(pages=pages, position='top')
+pg = st.navigation(pages=pages, position='hidden')
 pg.run()
