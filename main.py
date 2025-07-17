@@ -10,15 +10,7 @@ st.set_page_config(
 
 st.header(':blue[Prizz4U]')
 st.markdown('**Retail Price Transparency**')
-# with st.container(border=True):
-#     col1, col2, col3, col4 = st.columns([1, 1, 1, 2])
-#     with col1:
-#         st.page_link(page='views/store.py')
-#     with col2:
-#         st.page_link(page='views/product.py')
-#     with col3:
-#         st.page_link(page='views/price.py')
-st.divider()
+
 
 store_page = st.Page(
     title='Store',

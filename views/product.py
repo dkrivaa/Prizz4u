@@ -11,6 +11,7 @@ import cv2
 
 from subprocess_results import make_final_price_data, make_final_promo_data
 from product_data import all_product_data
+from navigator import nav
 
 
 def barcode():
@@ -104,6 +105,8 @@ def main():
     This is the main function for the product page
     This page enables user to upload pic of barcode and reads the image_code
     """
+    # Add navigation menu to page
+    nav()
     try:
         # Making price and promo lists for selected store
         with st.spinner('Getting data for Your store........'):

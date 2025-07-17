@@ -4,11 +4,14 @@ import subprocess
 import os
 
 from subprocess_results import make_final_store_list
+from navigator import nav
 
 
 @st.cache_data(ttl='2h', show_spinner=False)
 def get_store_data():
     """ Function to get store list"""
+    # Add navigation menu to page
+    nav()
 
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"

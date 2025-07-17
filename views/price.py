@@ -1,5 +1,7 @@
 import streamlit as st
 
+from navigator import nav
+
 
 def sales():
     """ This function presents the sales / discounts for selected product """
@@ -31,6 +33,8 @@ def display_price():
     """
     This is the function to display the product price
     """
+    # Add navigation menu to page
+    nav()
     try:
         with st.container(border=True):
             # PRICE
