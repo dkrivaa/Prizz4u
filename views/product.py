@@ -132,7 +132,7 @@ def main():
         # Take barcode picture and get image_code
         with st.form(key='Submit Data', clear_on_submit=True, ):
             image_code = barcode()
-            st.write(':blue[or]')
+            st.subheader(':blue[or]')
             st.markdown('**Enter Barcode**')
             write_code = st.text_input('Enter barcode')
 
