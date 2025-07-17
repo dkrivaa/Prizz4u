@@ -10,9 +10,6 @@ from navigator import nav
 @st.cache_data(ttl='2h', show_spinner=False)
 def get_store_data():
     """ Function to get store list"""
-    # Add navigation menu to page
-    nav()
-
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
 
@@ -31,7 +28,8 @@ def main():
     """
     This is the main function for the home page
     """
-
+    # Add navigation menu to page
+    nav()
     # Making store list one time
     if 'store_list' not in st.session_state:
         with st.spinner('One Moment, Getting System Ready........'):
